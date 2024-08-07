@@ -1,0 +1,18 @@
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: elasticsearch-exporter
+  namespace: prometheus
+  labels:
+    release: prometheus
+spec:
+  selector:
+    matchLabels:
+      app.kubernetes.io/instance: es-exporter
+      app.kubernetes.io/name: prometheus-elasticsearch-exporter
+  endpoints:
+    - port: http
+      interval: 30s
+  namespaceSelector:
+    matchNames:
+      - prometheus

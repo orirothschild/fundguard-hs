@@ -1,0 +1,31 @@
+additionalPrometheusRulesMap:
+  custom-alerts:
+    groups:
+      - name: elasticsearch.rules
+        rules:
+          - alert: ElasticsearchClusterInfoFailure
+            expr: elasticsearch_clusterinfo_last_retrieval_failure_ts > 0
+            for: 2m
+            labels:
+              severity: critical
+            annotations:
+              summary: "Elasticsearch Cluster Info Retrieval Failure"
+              description: "The Elasticsearch cluster info retrieval has failed. This could indicate an issue with the cluster."
+              
+          - alert: ElasticsearchScrapeDurationHigh
+            expr: elasticsearch_scrape_duration_seconds > 5
+            for: 5m
+            labels:
+              severity: warning
+            annotations:
+              summary: "High Elasticsearch Scrape Duration"
+              description: "The duration of Elasticsearch scrape is greater than 5 seconds. This could indicate performance issues."
+              
+          - alert: ElasticsearchIndexStatsJsonParseFailures
+            expr: elasticsearch_index_stats_json_parse_failures > 0
+            for: 5m
+            labels:
+              severity: warning
+            annotations:
+              summary: "Elasticsearch Index Stats JSON Parse Failures"
+              description: "There are JSON parse failures in the Elasticsearch index stats. This could indicate data corruption or format changes."
